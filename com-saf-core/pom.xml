@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>com-saf-parent</artifactId>
+        <groupId>com.saf</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>com-saf-core</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <profiles>
+        <!-- 全部 maven 项目默认使用 jdk1.8构建 -->
+        <profile>
+            <id>jdk-${java.version}</id>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <jdk>${java.version}</jdk>
+            </activation>
+            <properties>
+                <maven.compiler.source>${java.version}</maven.compiler.source>
+                <maven.compiler.target>${java.version}</maven.compiler.target>
+                <maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
+            </properties>
+        </profile>
+
+        <profile>
+            <!-- 本地/测试环境 -->
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
+                <excludes>
+                    <exclude>application-*.properties</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
+                <includes>
+                    <include>application-${profiles.active}.properties</include>
+                    <include>application.properties</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <!-- 拷贝依赖的jar包到lib目录 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/lib
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

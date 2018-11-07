@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>com-saf-parent</artifactId>
+        <groupId>com.saf</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>com-saf-monitor</artifactId>
+
+    <properties>
+        <curator.recipes.version>2.7.0</curator.recipes.version>
+        <zookeeper.version>3.4.6</zookeeper.version>
+        <zkclient.version>0.1</zkclient.version>
+        <validation.api.version>1.1.0.Final</validation.api.version>
+        <fastjson.version>1.2.47</fastjson.version>
+        <javassist.version>3.12.1.GA</javassist.version>
+        <spring-data-hadoop.version>2.5.0.RELEASE</spring-data-hadoop.version>
+        <hive.version>2.3.3</hive.version>
+        <mapreduce.version>3.0.0</mapreduce.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.saf</groupId>
+            <artifactId>com-saf-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gson</artifactId>
+                    <groupId>com.google.code.gson</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.saf</groupId>
+            <artifactId>com-saf-mllib-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.saf</groupId>
+            <artifactId>com-saf-mllib-als</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.saf.monitor.TomcatRun</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <id>copy_jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <!--   <outputDirectory>${dist.console.war.dir}</outputDirectory>   -->
+                            <!--指定war包保存地址-->
+                            <outputDirectory>${output.Directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

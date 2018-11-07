@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/heard :: heard"></div>
+<body class="layui-layout-body">
+<form class="layui-form" style="margin-top: 30px" id="login_form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="用户名"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off"
+                   class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="button_login_submit" onclick="javascript;;">登录</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script src="/plug/jquery/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="/plug/jquery/jquery.serializejson.min.js" type="text/javascript"></script>
+<script src="/plug/layui/layui.js" type="text/javascript"></script>
+<script src="/js/common/layui_utils.js" type="text/javascript"></script>
+<script src="/js/common/http_utils.js" type="text/javascript"></script>
+<script type="application/javascript">
+    init_layui();
+    $('#button_login_submit').bind('click', function () {
+        var login_form_id = "#login_form";
+        console.log($(login_form_id).serializeJSON());
+        var url = $("#security_path").val() + "/security/login";    //设置新提交地址
+        http_utils.postData(url, JSON.stringify($(login_form_id).serializeJSON()), true, function (result) {
+            if (result && result.status == 200) {
+                saf_layer.msg(result.data + " 登入成功");
+                parent.location.reload();
+            }
+        });
+        return false;
+    })
+</script>
+</body>
+</html>

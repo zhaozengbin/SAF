@@ -1,0 +1,87 @@
+<!-- 内容主体区域 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/heard :: heard"></div>
+<div th:include="common/heard :: url"></div>
+<div th:include="common/heard :: js"></div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>Spark Mllib简介</legend>
+</fieldset>
+<div class="layui-collapse" lay-accordion="">
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">机器学习</h2>
+        <div class="layui-colla-content layui-show">
+            <p>是一门人工智能的科学。利用数据或以往的经验，以此优化计算机程序的性能标准。英文定义：<br>
+                <i>A computer program is said to learn from experience E with respect to some class of tasks T and
+                    performance measure P, if its performance at tasks in T, as measured by P, improves with experience
+                    E.
+                </i><br>
+                <img src="/img/mllib_1.jpg"><br>
+                ML的三个关键词：算法、经验、性能，其处理过程如图1所示。在数据的基础上，通过算法构建出模型并对模型进行评估。评估的性能如果达到要求要求，就用该模型来测试其他数据；如果达不到要求，则调整算法重新建立模型，再次评估。如此循环，得到满意的经验后来处理其他数据。
+            </p>
+        </div>
+    </div>
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">基于大数据的机器学习</h2>
+        <div class="layui-colla-content">
+            <p>
+                传统的机器学习算法，由于技术和单机存储的限制，只能在少量数据上使用。即以前的统计/机器学习依赖于数据抽样。而实际中样本往往很难做好随机，导致学习模型不是很准确，在测试数据上效果也可能不太好。随着HDFS等分布式文件系统出现，存储海量数据成为可能。在全量数据上进行学习也成为可能，这解决了统计随机性的问题。然而，由于MR自身的限制，使用MR来实现分布式机器学习算法非常耗时和消耗磁盘IO。这是因为，机器学习算法参数学习的过程基本都是迭代的，如果使用MR，只能把中间结果存储磁盘，然后在下一次计算的时候重新读取，这对多次迭代的算法而言是性能瓶颈。<br>
+                在大数据上，进行全量数据的大量迭代计算，这要求ML平台具备强大的处理能力。Spark立足内存计算，适合迭代计算。并且，Spark提供了一个基于海量数据的ML库（MLLib），MLLib提供了常用机器学习算法的分布式实现。开发者只需要有Spark基础，且了解机器学习算法的原理，以及方法相关参数的含义，就可以通过调用相应的API来实现机遇海量数据的ML过程。其次，Spark-Shell的即席查询也是一个关键。算法工程师可以边写代码，边运行，边看结果。<br>
+                Spark提供的各种高效的工具正使得ML过程更加直观便捷。比如，通过sample函数，可以非常方便的进行抽样。随着发展，Spark拥有了实时批计算、批处理、算法库、SQL、流计算等模块，可以看成是一个全平台系统。<br>
+            </p>
+        </div>
+    </div>
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">Spark ML学习库MLLib</h2>
+        <div class="layui-colla-content">
+            <p>
+                MLLib旨在简化ML的工作实践工作，并方便扩展到更大规模。MLLib由一些通用的学习算法和工具组成，包括分类、回归、聚类、协同过滤、降维等，同时还包括底层的优化原语和高层的管道API。具体主要包含以下内容：<br>
+            <ul>
+                <li>算法工具：常用的ML算法，如分类、回归、聚类和协同过滤；</li>
+                <li>特征化工具：特征提取、转化、降维，和选择工具；</li>
+                <li>管道（Pipeline）：用于构建、评估和调整机器学习管道的工具；</li>
+                <li>持久性：保存和加载算法、模型和管道；</li>
+                <li>实用工具：线性代数、统计、数据处理等工具。</li>
+                <li>Spark机器学习库从1.2版本以后被分为两个包：</li>
+            </ul>
+            spark.mllib，包含基于RDD的原始算法API。Spark MLLib在1.0版本之前就包含了。<br>
+            spark.ml，则提供了基于DataFrames高层次的API，可以用来构建机器学习工作流（PipeLine）。ML
+            Pipeline弥补了原始MLLib库的不足，向用户提供了一个基于DataFrame的ML工作流式API套件。<br>
+            使用ML Pipeline
+            API可以很方便地进行数据处理、特征转化、正则化，以及多个ML算法联合起来，构建一个单一完整的ML流水线。这种方式给我们提供了更灵活的方法，更符合机器学习过程的特点，也更容易从其他语言迁移。Spark官方推荐使用spark.ml。如果新的算法能够适用于机器学习管道的概念，就应该将其放到spark.ml包中，如：特征提取器和转换器。开发者需要注意的是，预期Spark3.0版本的时候会移除MLLib。<br>
+            Spark在ML方面的发展很快，目前已经支持了主流的统计和ML算法。在所有基于分布式架构的开源ML库中，MLLib算是计算效率最高的。MLLib目前支持4种常见的机器学习问题：分类、回归、聚类和协同过滤。下表列出了MLLib目前支持的主要ML算法：<br>
+            <div class="layui-form">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="50">
+                        <col width="300">
+                        <col width="300">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>离散数据</th>
+                        <th>连续数据</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>监督学习</td>
+                        <td>Classification、LogisticRegression(with
+                            Elastic-Net)、SVM、DecisionTree、RandomForest、GBT、NaiveBayes、MultilayerPerceptron、OneVsRest
+                        </td>
+                        <td>Regression、LinearRegression(with
+                            Elastic-Net)、DecisionTree、RandomForest、GBT、AFTSurvivalRegression、IsotonicRegression
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>无监督学习</td>
+                        <td>Clustering、KMeans、GaussianMixture、LDA、PowerIterationClustering、BisectingKMeans</td>
+                        <td>Dimensionality Reduction、matrix factorization、PCA、SVD、ALS、WLS</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<!-- 内容主体区域 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="spark_setting_form">
+    <form action="" name="spark_setting_form" id="spark_setting_form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">JAVA 配置路径</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_java_home_path" id="als_java_home_path"
+                       autocomplete="off"
+                       placeholder="/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home"
+                       th:value="${session.als_java_home_path==null?'/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home':session.als_java_home_path}"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">HADOOP 配置路径</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_hadoop_conf_path" id="als_hadoop_conf_path"
+                       autocomplete="off"
+                       placeholder="/usr/local/Cellar/hadoop/3.1.0/libexec/etc/hadoop"
+                       th:value="${session.als_hadoop_conf_path==null?'/usr/local/Cellar/hadoop/3.1.0/libexec/etc/hadoop':session.als_hadoop_conf_path}"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Spark Home</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_spark_home_path" id="als_spark_home_path"
+                       autocomplete="off"
+                       placeholder="ALS"
+                       th:value="${session.als_spark_home_path==null?'/usr/local/Cellar/apache-spark/2.3.1/libexec':session.als_spark_home_path}"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">HDFS PATH</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_hdfs_path" id="als_hdfs_path"
+                       autocomplete="off"
+                       placeholder="hdfs://localhost:9000"
+                       th:value="${session.als_hdfs_path==null?'hdfs://localhost:9000':session.als_hdfs_path}"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Check Point Dir</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_check_point_dir" id="als_check_point_dir"
+                       autocomplete="off"
+                       placeholder="/tmp/"
+                       th:value="${session.als_check_point_dir==null?'/tmp/':session.als_check_point_dir}"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Spark过程检测目录</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_output_path" id="als_output_path" autocomplete="off"
+                       placeholder="/user/spark/als/logs/spark.log"
+                       th:value="${session.als_output_path==null?'/user/spark/als/logs/spark.log':session.als_output_path}"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">Spark计算jar文件</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_app_resource" id="als_app_resource" autocomplete="off"
+                       placeholder="/Users/zhaozengbin/git/com-saf-parent/com-saf-mllib-als/target/com-saf-mllib-als-1.0-SNAPSHOT-jar-with-dependencies.jar"
+                       th:value="${session.als_app_resource==null?'/Users/zhaozengbin/git/com-saf-parent/com-saf-mllib-als/target/com-saf-mllib-als-1.0-SNAPSHOT-jar-with-dependencies.jar':session.als_app_resource}"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">AppName</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_app_name" id="als_app_name" autocomplete="off"
+                       placeholder="ALS"
+                       th:value="${session.als_app_name==null?'ALS':session.als_app_name}"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">master</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_master" id="als_master" autocomplete="off"
+                       placeholder="spark://127.0.0.1:6066"
+                       th:value="${session.als_master==null?'spark://127.0.0.1:6066':session.als_master}"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <div class="layui-btn" id="button_spark_setting_next">检测保存并下一步</div>
+                <div class="layui-btn layui-btn-primary" id="button_spark_setting_check">检测保存</div>
+            </div>
+        </div>
+    </form>
+</div>
+

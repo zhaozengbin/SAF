@@ -1,0 +1,57 @@
+<!-- 内容主体区域 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="data_setting_form">
+    <form name="data_setting_form" id="data_setting_form" action="" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户信息文件(例:users.dat)</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_user_data" id="als_user_data"
+                       autocomplete="off"
+                       placeholder="/user/spark/als/users.dat"
+                       th:value="${session.als_user_data==null?'/user/spark/als/users.dat':session.als_user_data}"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品信息文件(例:movies.dat)</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_product_data" id="als_product_data"
+                       autocomplete="off"
+                       placeholder="/user/spark/als/movies.dat"
+                       th:value="${session.als_product_data==null?'/user/spark/als/movies.dat':session.als_product_data}"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户打分产品信息文件(例:ratings.dat)</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_ratings_data" id="als_ratings_data"
+                       autocomplete="off"
+                       placeholder="/user/spark/als/ratings.dat"
+                       th:value="${session.als_ratings_data==null?'/user/spark/als/ratings.dat':session.als_ratings_data}"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">推荐用户打分产品信息文件(例:personalRatings.txt)</label>
+            <div class="layui-input-block">
+                <input type="text" name="als_personalRatings_data" id="als_personalRatings_data"
+                       autocomplete="off"
+                       placeholder="/user/spark/als/personalRatings.txt"
+                       th:value="${session.als_personalRatings_data==null?'/user/spark/als/personalRatings.txt':session.als_personalRatings_data}"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <div class="layui-btn" id="button_data_setting_back">检测保存并上一步</div>
+                <div class="layui-btn" id="button_data_setting_next">检测保存并下一步</div>
+                <div class="layui-btn layui-btn-primary" id="button_data_setting_check">检测保存</div>
+            </div>
+        </div>
+    </form>
+</div>
+

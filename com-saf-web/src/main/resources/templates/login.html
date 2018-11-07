@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <title>saf 登入</title>
+
+    <!--- CSS --->
+    <link rel="stylesheet" href="/plug/login/css/style.css" type="text/css"/>
+
+
+    <!--- Javascript libraries (jQuery and Selectivizr) used for the custom checkbox --->
+    <script type="text/javascript" src="/plug/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/plug/jquery/jquery.serializejson.min.js"></script>
+    <script type="text/javascript" src="/js/common/http_utils.js"></script>
+
+    <!--[if (gte IE 6)&(lte IE 8)]>
+    <script type="text/javascript" src="/plug/login/js/selectivizr.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="/plug/login/css/fallback.css"/>
+    </noscript>
+    <![endif]-->
+</head>
+<div th:include="common/heard :: url"></div>
+<body>
+<div id="container">
+    <form class="layui-form" style="margin-top: 30px" id="login_form">
+        <div class="login">登录</div>
+        <div class="username-text">用户名:</div>
+        <div class="password-text">密码:</div>
+        <div class="username-field">
+            <input type="text" id="username" name="username" value="admin"/>
+        </div>
+        <div class="password-field">
+            <input type="password" id="password" name="password" value="admin"/>
+        </div>
+        <input type="submit" style="margin-left: 420px;" name="button_login_submit" id="button_login_submit" value="登入"/>
+    </form>
+</div>
+<div id="footer">
+    © saf系统
+</div>
+<script type="text/javascript">
+    $('#button_login_submit').bind('click', function () {
+        var login_form_id = "#login_form";
+        var url = $("#security_path").val() + "/security/login";    //设置新提交地址
+        http_utils.postData(url, JSON.stringify($(login_form_id).serializeJSON()), false, function (result) {
+            if (result && result.status == 200) {
+                window.location.href = "index.html";
+            }
+        });
+        return false;
+    })
+</script>
+</body>
+</html>
