@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="com-saf-core" />
+        <module name="com-saf-kmeans" />
         <module name="com-saf-mllib" />
         <module name="com-saf-mllib-als" />
         <module name="com-saf-mllib-core" />

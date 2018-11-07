@@ -1,6 +1,6 @@
 package com.saf.mllib.als.app;
 
-import com.saf.mllib.als.base.AbstarctMllib;
+import com.saf.mllib.core.app.base.AbstarctMllib;
 import org.apache.spark.api.java.JavaSparkContext;
 
 public abstract class AbstractALS<T> extends AbstarctMllib<T> {

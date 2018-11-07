@@ -1,4 +1,4 @@
-package com.saf.mllib.als.base;
+package com.saf.mllib.core.app.base;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;

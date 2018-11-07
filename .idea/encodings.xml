@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/com-saf-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-saf-kmeans" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/com-saf-mllib" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/com-saf-mllib-als" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/com-saf-mllib-core" charset="UTF-8" />

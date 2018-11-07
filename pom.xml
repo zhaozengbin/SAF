@@ -16,6 +16,7 @@
         <module>com-saf-mllib</module>
         <module>com-saf-mllib-core</module>
         <module>com-saf-mllib-als</module>
+        <module>com-saf-kmeans</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
