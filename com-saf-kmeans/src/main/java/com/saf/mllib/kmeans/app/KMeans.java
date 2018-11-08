@@ -92,26 +92,26 @@ public class KMeans implements Serializable {
     }
 
     public static void main(String[] args) {
-//        if (args.length == 9) {
-//            String sparkAppName = args[0];
-//            String sparkMaster = args[1];
-//            String hdfsPath = args[2];
-//            String filePath = args[3];
-//            String k = args[4];
-//            String maxIterator = args[5];
-//            String run = args[6];
-//            String initializationMode = args[7];
-//            String seed = args[8];
+        if (args.length == 9) {
+            String sparkAppName = args[0];
+            String sparkMaster = args[1];
+            String hdfsPath = args[2];
+            String filePath = args[3];
+            String k = args[4];
+            String maxIterator = args[5];
+            String run = args[6];
+            String initializationMode = args[7];
+            String seed = args[8];
 
-            String sparkAppName = "k-means";
-            String sparkMaster = "local[*]";
-            String hdfsPath = "";
-            String filePath = "/Users/zhaozengbin/data/spark/k-means/unzip/kmeans_game.csv";
-            String k = "3";
-            String maxIterator = "20";
-            String run = "10";
-            String initializationMode = "random";
-            String seed = null;
+//            String sparkAppName = "k-means";
+//            String sparkMaster = "local[*]";
+//            String hdfsPath = "";
+//            String filePath = "/Users/zhaozengbin/data/spark/k-means/unzip/kmeans_game.csv";
+//            String k = "3";
+//            String maxIterator = "20";
+//            String run = "10";
+//            String initializationMode = "random";
+//            String seed = null;
 
 
             int kInt = 0;
@@ -135,7 +135,7 @@ public class KMeans implements Serializable {
             }
             KMeans kMeans = KMeans.getInstance(sparkAppName, sparkMaster, filePath);
             kMeans.execute(hdfsPath, kInt, maxIteratorInt, runInt, initializationMode, seedLong);
-//        }
+        }
     }
 
     public String getSparkAppName() {
