@@ -9,6 +9,9 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import scala.Serializable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class KMeans implements Serializable {
     private static final Logger LOGGER = Logger.getLogger(KMeans.class);
 
@@ -73,7 +76,7 @@ public class KMeans implements Serializable {
         return instance;
     }
 
-    public void execute(String hdfsPath, int k, int maxIterations, int run, String initializationMode, long seed) {
+    public void execute(String hdfsPath, List<Integer> ks, List<Integer> maxIterations, List<Integer> runs, String initializationMode, long seed) {
         // 创建入口对象
         if (filePath == null) {
             return;
@@ -87,55 +90,59 @@ public class KMeans implements Serializable {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         KMeansDataInfo kMeansDataInfo = new KMeansDataInfo(filePath, sc);
-        KMeansImpl.train(kMeansDataInfo.createJavaRDD(), k, maxIterations, run, initializationMode, seed);
+        if (ks.size() == 1 && maxIterations.size() == 1 && runs.size() == 1) {
+            KMeansImpl.train(kMeansDataInfo.createJavaRDD(), ks.get(0), maxIterations.get(0), runs.get(0), initializationMode, seed);
+        } else {
+            KMeansImpl.train(kMeansDataInfo.createJavaRDD(), ks, maxIterations, runs, initializationMode, seed);
+        }
         System.out.println("任务结束");
     }
 
     public static void main(String[] args) {
-        if (args.length == 9) {
-            String sparkAppName = args[0];
-            String sparkMaster = args[1];
-            String hdfsPath = args[2];
-            String filePath = args[3];
-            String k = args[4];
-            String maxIterator = args[5];
-            String run = args[6];
-            String initializationMode = args[7];
-            String seed = args[8];
+//        if (args.length == 9) {
+//            String sparkAppName = args[0];
+//            String sparkMaster = args[1];
+//            String hdfsPath = args[2];
+//            String filePath = args[3];
+//            String k = args[4];
+//            String maxIterator = args[5];
+//            String run = args[6];
+//            String initializationMode = args[7];
+//            String seed = args[8];
 
-//            String sparkAppName = "k-means";
-//            String sparkMaster = "local[*]";
-//            String hdfsPath = "";
-//            String filePath = "/Users/zhaozengbin/data/spark/k-means/unzip/kmeans_game.csv";
-//            String k = "3";
-//            String maxIterator = "20";
-//            String run = "10";
-//            String initializationMode = "random";
-//            String seed = null;
+        String sparkAppName = "k-means";
+        String sparkMaster = "local[*]";
+        String hdfsPath = "";
+        String filePath = "/Users/zhaozengbin/data/spark/k-means/unzip/kmeans_game.csv";
+        String k = "5,6,7,8,9";
+        String maxIterator = "20";
+        String run = "10";
+        String initializationMode = "random";
+        String seed = null;
 
 
-            int kInt = 0;
-            int maxIteratorInt = 0;
-            int runInt = 0;
-            long seedLong = 0;
-            if (ObjectUtils.isNumber(k)) {
-                kInt = Integer.parseInt(k);
-            }
-            if (ObjectUtils.isNumber(maxIterator)) {
-                maxIteratorInt = Integer.parseInt(maxIterator);
-            }
-            if (ObjectUtils.isNotEmpty(hdfsPath)) {
-                filePath = hdfsPath + filePath;
-            }
-            if (ObjectUtils.isNotEmpty(run)) {
-                runInt = Integer.parseInt(run);
-            }
-            if (ObjectUtils.isNotEmpty(seed)) {
-                seedLong = Long.parseLong(seed);
-            }
-            KMeans kMeans = KMeans.getInstance(sparkAppName, sparkMaster, filePath);
-            kMeans.execute(hdfsPath, kInt, maxIteratorInt, runInt, initializationMode, seedLong);
+        List<Integer> kInt = new ArrayList<>();
+        List<Integer> maxIteratorInt = new ArrayList<>();
+        List<Integer> runInt = new ArrayList<>();
+        long seedLong = 0;
+        if (ObjectUtils.isNotEmpty(k)) {
+            kInt = ObjectUtils.string2IntegerList(k, ",");
         }
+        if (ObjectUtils.isNotEmpty(maxIterator)) {
+            maxIteratorInt = ObjectUtils.string2IntegerList(maxIterator, ",");
+        }
+        if (ObjectUtils.isNotEmpty(hdfsPath)) {
+            filePath = hdfsPath + filePath;
+        }
+        if (ObjectUtils.isNotEmpty(run)) {
+            runInt = ObjectUtils.string2IntegerList(run, ",");
+        }
+        if (ObjectUtils.isNotEmpty(seed)) {
+            seedLong = Long.parseLong(seed);
+        }
+        KMeans kMeans = KMeans.getInstance(sparkAppName, sparkMaster, filePath);
+        kMeans.execute(hdfsPath, kInt, maxIteratorInt, runInt, initializationMode, seedLong);
+//        }
     }
 
     public String getSparkAppName() {

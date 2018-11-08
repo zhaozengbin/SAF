@@ -17,13 +17,23 @@
                   <option name="pins">
                     <list>
                       <Pin>
-                        <option name="consoleUUID" value="85261ad7-519c-44db-9874-51d3bb5e4d0f" />
+                        <option name="consoleUUID" value="45458772-795f-4763-94ff-7e2e55886df3" />
                         <option name="grepModel">
                           <GrepModel>
-                            <option name="expression" value="kmeans info" />
+                            <option name="expression" value="kmeans info Within Set Sum of Squared Errors" />
                             <option name="unlessExpression" value="" />
                           </GrepModel>
                         </option>
+                      </Pin>
+                      <Pin>
+                        <option name="consoleUUID" value="e518467e-0964-4c3d-880d-ce0e2bea9620" />
+                        <option name="grepModel">
+                          <GrepModel>
+                            <option name="expression" value="best param" />
+                            <option name="unlessExpression" value="" />
+                          </GrepModel>
+                        </option>
+                        <option name="parentConsoleUUID" value="45458772-795f-4763-94ff-7e2e55886df3" />
                       </Pin>
                     </list>
                   </option>
