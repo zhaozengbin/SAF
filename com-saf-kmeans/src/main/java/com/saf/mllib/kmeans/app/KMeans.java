@@ -115,8 +115,8 @@ public class KMeans implements Serializable {
         String hdfsPath = "";
         String filePath = "/Users/zhaozengbin/data/spark/k-means/unzip/kmeans_game.csv";
         String k = "5,6,7,8,9";
-        String maxIterator = "20";
-        String run = "10";
+        String maxIterator = "20,30,40";
+        String run = "10,20,30,40";
         String initializationMode = "random";
         String seed = null;
 

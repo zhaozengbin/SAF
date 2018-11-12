@@ -15,8 +15,26 @@ import java.util.Map;
 public class KMeansImpl {
     private static final Logger LOGGER = Logger.getLogger(KMeansImpl.class);
 
-    public static String hdfsPath;
+    /**
+     * 方法：predict
+     * 描述：预测分组结果
+     * 作者：赵增斌 E-mail:zhaozengbin@gmail.com QQ:4415599 weibo:http://weibo.com/zhaozengbin
+     * 时间: 2018年11月09日 11:48 AM
+     * 参数：[points, kMeansModel]
+     * 返回: java.util.List<java.lang.Integer>
+     */
+    private static List<Integer> predict(JavaRDD<Vector> points, KMeansModel kMeansModel) {
+        return kMeansModel.predict(points).collect();
+    }
 
+    /**
+     * 方法：train
+     * 描述：通过不同的参数组合训练最好的模型
+     * 作者：赵增斌 E-mail:zhaozengbin@gmail.com QQ:4415599 weibo:http://weibo.com/zhaozengbin
+     * 时间: 2018年11月09日 11:43 AM
+     * 参数：[rdd, ks, maxIterators, runs, initializationMode, seed]
+     * 返回: org.apache.spark.mllib.clustering.KMeansModel
+     */
     public static KMeansModel train(JavaRDD<Vector> rdd, List<Integer> ks, List<Integer> maxIterators, List<Integer> runs, String initializationMode, Long seed) {
         Double bestCost = null;
         KMeansModel bestKMeansModel = null;
@@ -54,17 +72,24 @@ public class KMeansImpl {
                 }
             }
         }
-        System.out.println(String.format("best param : k = %d, maxIterator = %d, run = %d, cost = %f", bestK, bestMaxIterator, bestRun, bestCost));
+        System.out.println(String.format("kmeans info best param : k = %d, maxIterator = %d, run = %d, cost = %f", bestK, bestMaxIterator, bestRun, bestCost));
         return bestKMeansModel;
     }
 
+    /**
+     * 方法：train
+     * 描述：根据指定参数获取推荐模型
+     * 作者：赵增斌 E-mail:zhaozengbin@gmail.com QQ:4415599 weibo:http://weibo.com/zhaozengbin
+     * 时间: 2018年11月09日 11:44 AM
+     * 参数：[rdd, k, maxIterator, runs, initializationMode, seed]
+     * 返回: com.saf.mllib.kmeans.app.impl.KMeansImpl.KMeansResult
+     */
     public static KMeansResult train(JavaRDD<Vector> rdd, int k, int maxIterator, int runs, String initializationMode, Long seed) {
         final KMeansModel kMeansModel = model(rdd, k, maxIterator, runs, initializationMode, seed);
 
         //计算测试数据分别属于那个簇类
         JavaPairRDD<Integer, Vector> predictRDD = rdd.mapToPair(x -> {
             int predict = kMeansModel.predict(x);
-            System.out.println("kmeans info data point = " + x + ", predict = " + predict);
             return new Tuple2<Integer, Vector>(predict, x);
         });
         return new KMeansResult(rdd, kMeansModel, predictRDD);
