@@ -1,9 +1,6 @@
 package com.saf.monitor.socket.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.saf.mllib.core.common.constant.ConstantSparkTask;
-import com.saf.monitor.socket.entity.WebSocketMessage;
 import com.saf.monitor.socket.entity.WebSocketResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -6,7 +6,10 @@ import com.saf.mllib.kmeans.app.impl.KMeansImpl;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.mllib.clustering.KMeansModel;
+import org.apache.spark.mllib.linalg.Vector;
 import scala.Serializable;
 
 import java.util.ArrayList;
@@ -25,7 +28,7 @@ public class KMeans implements Serializable {
 
     static {
         //屏蔽日志，由于结果是打印在控制台上的，为了方便查看结果，将spark日志输出关掉
-        Logger.getLogger("org.apache.spark").setLevel(Level.WARN);
+        Logger.getLogger("org.apache.spark").setLevel(Level.INFO);
         Logger.getLogger("org.eclipse.jetty.server").setLevel(Level.OFF);
     }
 
@@ -76,7 +79,7 @@ public class KMeans implements Serializable {
         return instance;
     }
 
-    public void execute(String hdfsPath, List<Integer> ks, List<Integer> maxIterations, List<Integer> runs, String initializationMode, long seed) {
+    public void execute(String hdfsPath, List<Integer> ks, List<Integer> maxIterations, List<Integer> runs, String initializationMode, long seed, String testFilePath, String stepFlag) {
         // 创建入口对象
         if (filePath == null) {
             return;
@@ -90,10 +93,19 @@ public class KMeans implements Serializable {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         KMeansDataInfo kMeansDataInfo = new KMeansDataInfo(filePath, sc);
-        if (ks.size() == 1 && maxIterations.size() == 1 && runs.size() == 1) {
-            KMeansImpl.train(kMeansDataInfo.createJavaRDD(), ks.get(0), maxIterations.get(0), runs.get(0), initializationMode, seed);
-        } else {
-            KMeansImpl.train(kMeansDataInfo.createJavaRDD(), ks, maxIterations, runs, initializationMode, seed);
+        if (stepFlag.equalsIgnoreCase("clustering")) {
+            KMeansModel kMeansModel = KMeansImpl.train(kMeansDataInfo.createJavaPairRDD(), ks, maxIterations, runs, initializationMode, seed);
+        } else if (stepFlag.equalsIgnoreCase("recommend") && ks.size() == 1 && maxIterations.size() == 1 && runs.size() == 1) {
+
+            JavaPairRDD<String, Vector> javaPairRDD = kMeansDataInfo.createJavaPairRDD();
+            KMeansImpl.KMeansResult kMeansResult = KMeansImpl.train(javaPairRDD, ks.get(0), maxIterations.get(0), runs.get(0), initializationMode, seed);
+
+            kMeansDataInfo = new KMeansDataInfo(testFilePath, sc);
+            javaPairRDD = kMeansDataInfo.createJavaPairRDD();
+            List list = kMeansResult.getkMeansModel().predict(javaPairRDD.values()).collect();
+            for (int i = 0; i < list.size(); i++) {
+                LOGGER.info(String.format("kmeans info predict:%d ,train: %s", list.get(i), javaPairRDD.keys().collect().get(i)));
+            }
         }
         System.out.println("任务结束");
     }
@@ -109,17 +121,21 @@ public class KMeans implements Serializable {
 //            String run = args[6];
 //            String initializationMode = args[7];
 //            String seed = args[8];
+//            String testFilePath = args[9];
+//            String stepFlag = args[10];
+
 
         String sparkAppName = "k-means";
         String sparkMaster = "local[*]";
         String hdfsPath = "";
         String filePath = "/Users/zhaozengbin/data/spark/k-means/unzip/kmeans_game.csv";
-        String k = "5,6,7,8,9";
-        String maxIterator = "20,30,40";
-        String run = "10,20,30,40";
+        String k = "3";
+        String maxIterator = "20";
+        String run = "1";
         String initializationMode = "random";
         String seed = null;
-
+        String testFilePath = "/Users/zhaozengbin/data/spark/k-means/unzip/kmeans_game_test.csv";
+        String stepFlag = "recommend";
 
         List<Integer> kInt = new ArrayList<>();
         List<Integer> maxIteratorInt = new ArrayList<>();
@@ -133,6 +149,7 @@ public class KMeans implements Serializable {
         }
         if (ObjectUtils.isNotEmpty(hdfsPath)) {
             filePath = hdfsPath + filePath;
+            testFilePath = hdfsPath + testFilePath;
         }
         if (ObjectUtils.isNotEmpty(run)) {
             runInt = ObjectUtils.string2IntegerList(run, ",");
@@ -141,7 +158,7 @@ public class KMeans implements Serializable {
             seedLong = Long.parseLong(seed);
         }
         KMeans kMeans = KMeans.getInstance(sparkAppName, sparkMaster, filePath);
-        kMeans.execute(hdfsPath, kInt, maxIteratorInt, runInt, initializationMode, seedLong);
+        kMeans.execute(hdfsPath, kInt, maxIteratorInt, runInt, initializationMode, seedLong, testFilePath, stepFlag);
 //        }
     }
 

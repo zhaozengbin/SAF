@@ -1,6 +1,7 @@
 package com.saf.mllib.kmeans.app;
 
 import com.saf.mllib.core.app.base.AbstarctMllib;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
 public abstract class AbstractKMeans<T> extends AbstarctMllib<T> {
@@ -13,4 +14,5 @@ public abstract class AbstractKMeans<T> extends AbstarctMllib<T> {
         super(dataFilePath, javaSparkContex);
     }
 
+    public abstract JavaPairRDD<String, T> createJavaPairRDD();
 }
