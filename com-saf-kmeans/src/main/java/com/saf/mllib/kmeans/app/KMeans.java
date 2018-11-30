@@ -1,16 +1,21 @@
 package com.saf.mllib.kmeans.app;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.saf.core.common.utils.ObjectUtils;
+import com.saf.mllib.core.common.utils.RedisUtils;
+import com.saf.mllib.core.entity.dto.WebSocketResponseMessageDto;
 import com.saf.mllib.kmeans.app.entity.KMeansDataInfo;
+import com.saf.mllib.kmeans.app.entity.KMeansDataResult;
 import com.saf.mllib.kmeans.app.impl.KMeansImpl;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.mllib.clustering.KMeansModel;
 import org.apache.spark.mllib.linalg.Vector;
 import scala.Serializable;
+import scala.Tuple2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,18 +98,34 @@ public class KMeans implements Serializable {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         KMeansDataInfo kMeansDataInfo = new KMeansDataInfo(filePath, sc);
+        JavaPairRDD<String, Vector> javaPairRDD = kMeansDataInfo.createJavaPairRDD();
         if (stepFlag.equalsIgnoreCase("clustering")) {
-            KMeansModel kMeansModel = KMeansImpl.train(kMeansDataInfo.createJavaPairRDD(), ks, maxIterations, runs, initializationMode, seed);
-        } else if (stepFlag.equalsIgnoreCase("recommend") && ks.size() == 1 && maxIterations.size() == 1 && runs.size() == 1) {
+            KMeansDataResult kMeansDataResult = KMeansImpl.train(javaPairRDD, ks, maxIterations, runs, initializationMode, seed);
 
-            JavaPairRDD<String, Vector> javaPairRDD = kMeansDataInfo.createJavaPairRDD();
+            KMeansImpl.KMeansResult kMeansResult = KMeansImpl.train(javaPairRDD, kMeansDataResult.getBestK(),
+                    kMeansDataResult.getBestMaxIterator(), kMeansDataResult.getBestRun(), initializationMode, seed);
+
+            // 输入训练模型
+            for (Tuple2<Integer, Vector> tuple2 : kMeansResult.getPredictDetail().collect()) {
+                WebSocketResponseMessageDto dto = new WebSocketResponseMessageDto(2, new KMeansDataResult.KMeansData(JSON.toJSON(tuple2._2()).toString(), tuple2._1()));
+                String msg = JSONObject.toJSONString(dto);
+                LOGGER.info("根据计算模型获得的推荐:" + msg);
+                RedisUtils.getJedis().publish("variance", msg);
+            }
+
+        } else if (stepFlag.equalsIgnoreCase("recommend") && ks.size() == 1 && maxIterations.size() == 1 && runs.size() == 1) {
+            // 训练数据模型
             KMeansImpl.KMeansResult kMeansResult = KMeansImpl.train(javaPairRDD, ks.get(0), maxIterations.get(0), runs.get(0), initializationMode, seed);
 
             kMeansDataInfo = new KMeansDataInfo(testFilePath, sc);
             javaPairRDD = kMeansDataInfo.createJavaPairRDD();
-            List list = kMeansResult.getkMeansModel().predict(javaPairRDD.values()).collect();
+            List<Integer> list = kMeansResult.getkMeansModel().predict(javaPairRDD.values()).collect();
             for (int i = 0; i < list.size(); i++) {
                 LOGGER.info(String.format("kmeans info predict:%d ,train: %s", list.get(i), javaPairRDD.keys().collect().get(i)));
+                WebSocketResponseMessageDto dto = new WebSocketResponseMessageDto(2, new KMeansDataResult.KMeansData(javaPairRDD.keys().collect().get(i), list.get(i)));
+                String msg = JSONObject.toJSONString(dto);
+                LOGGER.info("根据计算模型获得的推荐:" + msg);
+                RedisUtils.getJedis().publish("variance", msg);
             }
         }
         System.out.println("任务结束");

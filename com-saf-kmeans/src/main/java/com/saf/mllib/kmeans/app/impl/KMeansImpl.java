@@ -5,6 +5,7 @@ import com.saf.core.common.utils.ObjectUtils;
 import com.saf.mllib.core.common.constant.ConstantSparkTask;
 import com.saf.mllib.core.common.utils.RedisUtils;
 import com.saf.mllib.core.entity.dto.WebSocketResponseMessageDto;
+import com.saf.mllib.kmeans.app.entity.KMeansDataResult;
 import org.apache.log4j.Logger;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -39,13 +40,13 @@ public class KMeansImpl {
      * 参数：[rdd, ks, maxIterators, runs, initializationMode, seed]
      * 返回: org.apache.spark.mllib.clustering.KMeansModel
      */
-    public static KMeansModel train(JavaPairRDD<String, Vector> rdd, List<Integer> ks, List<Integer> maxIterators, List<Integer> runs, String initializationMode, Long seed) {
+    public static KMeansDataResult train(JavaPairRDD<String, Vector> rdd, List<Integer> ks, List<Integer> maxIterators, List<Integer> runs, String initializationMode, Long seed) {
         Double bestCost = null;
         KMeansModel bestKMeansModel = null;
         int bestK = 0;
         int bestMaxIterator = 0;
         int bestRun = 0;
-
+        KMeansDataResult kMeansDataResult = new KMeansDataResult();
         for (Integer k : ks) {
             for (Integer maxIterator : maxIterators) {
                 for (Integer run : runs) {
@@ -79,6 +80,11 @@ public class KMeansImpl {
                         bestRun = run;
                         bestCost = kMeansResult.getCost();
                         bestKMeansModel = kMeansResult.kMeansModel;
+
+                        kMeansDataResult.setBestK(bestK);
+                        kMeansDataResult.setBestMaxIterator(bestMaxIterator);
+                        kMeansDataResult.setBestRun(bestRun);
+                        kMeansDataResult.setkMeansModel(bestKMeansModel);
                     }
                 }
             }
@@ -94,7 +100,7 @@ public class KMeansImpl {
         RedisUtils.getJedis().publish("variance", JSONObject.toJSONString(dto));
 
         LOGGER.info(String.format("kmeans info best param : k = %d, maxIterator = %d, run = %d, cost = %f", bestK, bestMaxIterator, bestRun, bestCost));
-        return bestKMeansModel;
+        return kMeansDataResult;
     }
 
     /**
@@ -181,8 +187,8 @@ public class KMeansImpl {
             return kMeansModel;
         }
 
-        public void setkMeansModel(KMeansModel kMeansModel) {
-            this.kMeansModel = kMeansModel;
+        public JavaPairRDD<Integer, Vector> getPredictDetail() {
+            return predictDetail;
         }
     }
 }
