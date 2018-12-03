@@ -1,6 +1,5 @@
 package com.saf.web.controller;
 
-import org.springframework.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +21,9 @@ public class BaseController {
     }
 
 
-    @RequestMapping(value = "/mllib/als/{path}", method = RequestMethod.GET)
-    public ModelAndView mllib(@PathVariable(value = "path") String path, HttpSession session) {
-        ModelAndView mv = new ModelAndView("mllib/als/" + path);
+    @RequestMapping(value = "/mllib/{dir}/{path}", method = RequestMethod.GET)
+    public ModelAndView mllib(@PathVariable(value = "dir") String dir, @PathVariable(value = "path") String path, HttpSession session) {
+        ModelAndView mv = new ModelAndView("mllib/" + dir + "/" + path);
         return mv;
     }
 
