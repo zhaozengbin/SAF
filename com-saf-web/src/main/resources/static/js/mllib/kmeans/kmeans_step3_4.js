@@ -7,20 +7,20 @@ function init_step4_form() {
             reload_step4_ui(true);
             $('#recommend_model_tbody').children('tr').remove();
             var formData = $(form_id).serializeJSON();
-            formData.als_training_proportion = $('#als_training_proportion').val();
-            formData.als_validata_proportion = $('#als_validata_proportion').val();
-            formData.als_test_proportion = $('#als_test_proportion').val();
-            http_utils.postData(monitor_path + '/mllib/als/execute', JSON.stringify(formData), true, function (data) {
+            formData.kmeans_training_proportion = $('#kmeans_training_proportion').val();
+            formData.kmeans_validata_proportion = $('#kmeans_validata_proportion').val();
+            formData.kmeans_test_proportion = $('#kmeans_test_proportion').val();
+            http_utils.postData(monitor_path + '/mllib/kmeans/execute', JSON.stringify(formData), true, function (data) {
                 if (data) {
                     if (data.status == 200) {
-                        saf_layui.loding_increase('preview_als', 2);
+                        saf_layui.loding_increase('preview_kmeans', 2);
                     } else if (data.data && data.data.indexOf("{") >= 0 && data.data.indexOf("}") > 0) {
                         layer.alert(JSON.parse(data.data).exception);
                     } else {
                         layer.alert(data.data);
                     }
                     if (data.data && data.data && data.data.indexOf("{") >= 0 && data.data.indexOf("}") > 0) {
-                        als_current_submissionid = JSON.parse(data.data).ALS_CURRENT_SUBMISSIONID;
+                        kmeans_current_submissionid = JSON.parse(data.data).KMEANS_CURRENT_SUBMISSIONID;
                     }
                 } else {
                     layer.alert('提交失败');
@@ -47,9 +47,9 @@ function collapse_step4_init() {
 
 function reload_step4_ui(is_reload) {
     if (is_reload) {
-        saf_layui.loding_increase('preview_step4_als', 1);
+        saf_layui.loding_increase('preview_step4_kmeans', 1);
     } else {
-        saf_layui.loding_increase('preview_step4_als', 0);
+        saf_layui.loding_increase('preview_step4_kmeans', 0);
     }
 }
 
@@ -71,14 +71,14 @@ function disconnect_step4(is_reload) {
         stompClient.disconnect();
     }
     if (is_reload) {
-        reload_step4_ui(false);
+        reload_step4_ui(fkmeanse);
     }
     console.log("Disconnected");
 }
 
 function showResponse_step4(message) {
     if (message.responseMessageType == 'progress') {
-        saf_layui.loding_increase('preview_step4_als', message.responseMessage);
+        saf_layui.loding_increase('preview_step4_kmeans', message.responseMessage);
     } else if (message.responseMessageType == 'console'
         && message.responseMessageId.indexOf('variance') >= 0) {
         if (message.responseMessageFormat == 'json') {

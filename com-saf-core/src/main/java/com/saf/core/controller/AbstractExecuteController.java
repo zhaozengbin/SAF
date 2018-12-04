@@ -71,7 +71,9 @@ public abstract class AbstractExecuteController extends AbstractBaseController {
 
     protected abstract BaseResponseVo submit(HttpSession session, JSONObject jsonObject);
 
-    protected abstract String mllibName();
+    protected String mllibName() {
+        return "";
+    }
 
     protected String appName(HttpSession session) {
         Object appName = session.getAttribute(mllibName() + "_" + "app_name");

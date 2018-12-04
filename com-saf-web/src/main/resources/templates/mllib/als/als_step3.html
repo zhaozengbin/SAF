@@ -27,9 +27,10 @@
         <li id="training_setting_tab">数据预处理</li>
         <li id="recommend_setting_tab">数据推荐</li>
     </ul>
+    <input type="hidden" name="mllib_type" id="mllib_type" value="als">
     <div class="layui-tab-content layui-form-pane">
         <div class="layui-tab-item layui-show">
-            <div th:include="mllib/als/als_step3_1.html :: spark_setting_form"></div>
+            <div th:include="mllib/mllib.html :: spark_setting_form"></div>
         </div>
         <div class="layui-tab-item">
             <div th:include="mllib/als/als_step3_2.html :: data_setting_form"></div>
@@ -44,8 +45,9 @@
 </div>
 <script type="text/javascript" src="/plug/socket/sockjs.min.js"></script>
 <script type="text/javascript" src="/plug/socket/stomp.min.js"></script>
-<script type="text/javascript" src="/js/als/als_step3_3.js"></script>
-<script type="text/javascript" src="/js/als/als_step3_4.js"></script>
-<script type="text/javascript" src="/js/als/als_step3.js"></script>
+<script type="text/javascript" src="/js/mllib/mllib.js"></script>
+<script type="text/javascript" src="/js/mllib/als/als_step3.js"></script>
+<script type="text/javascript" src="/js/mllib/als/als_step3_3.js"></script>
+<script type="text/javascript" src="/js/mllib/als/als_step3_4.js"></script>
 </html>
 

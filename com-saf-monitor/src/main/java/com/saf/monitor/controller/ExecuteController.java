@@ -218,10 +218,4 @@ public class ExecuteController extends AbstractExecuteController {
         }
         return fail("提交失败");
     }
-
-
-    @Override
-    protected String mllibName() {
-        return "als";
-    }
 }
