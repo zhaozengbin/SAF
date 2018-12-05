@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @Controller
 @RequestMapping(value = "/hdfs")
@@ -102,23 +101,21 @@ public class HDFSController extends AbstractBaseController {
         if (ObjectUtils.isNotEmpty(jsonObject)) {
             for (String key : jsonObject.keySet()) {
                 String hdfsFilePath = jsonObject.getString(key);
-                if (hdfsFilePath.endsWith("txt") || hdfsFilePath.endsWith("dat")) {
-                    if (ObjectUtils.isEmpty(hdfsFilePath)) {
-                        return fail("HDFS 文件路径未填写");
-                    }
-                    boolean exists = false;
-                    try {
-                        HadoopUtils monitorUtils = HadoopUtils.getInstance(null);
-                        exists = monitorUtils.existFile(hdfsFilePath, false);
-                    } catch (Exception e) {
-                        return fail("HDFS 文件路径检测异常");
-                    }
-                    if (exists) {
-                        request.getSession().setAttribute(key, hdfsFilePath);
-                        return success("HDFS 文件路径检测成功");
-                    } else {
-                        return fail("HDFS 文件路径不存在");
-                    }
+                if (ObjectUtils.isEmpty(hdfsFilePath)) {
+                    return fail("HDFS 文件路径未填写");
+                }
+                boolean exists = false;
+                try {
+                    HadoopUtils monitorUtils = HadoopUtils.getInstance(null);
+                    exists = monitorUtils.existFile(hdfsFilePath, false);
+                } catch (Exception e) {
+                    return fail("HDFS 文件路径检测异常");
+                }
+                if (exists) {
+                    request.getSession().setAttribute(key, hdfsFilePath);
+                    return success("HDFS 文件路径检测成功");
+                } else {
+                    return fail("HDFS 文件路径不存在");
                 }
             }
         }

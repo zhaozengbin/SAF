@@ -74,13 +74,24 @@ public class KMeansDataResult implements Serializable {
     }
 
     public static class KMeansData implements Serializable {
+        private String submissionId;
+
         private String data;
 
         private long group;
 
-        public KMeansData(String data, long group) {
+        public KMeansData(String submissionId, String data, long group) {
+            this.submissionId = submissionId;
             this.data = data;
             this.group = group;
+        }
+
+        public String getSubmissionId() {
+            return submissionId;
+        }
+
+        public void setSubmissionId(String submissionId) {
+            this.submissionId = submissionId;
         }
 
         public String getData() {

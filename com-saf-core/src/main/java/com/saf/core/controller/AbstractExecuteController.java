@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping(value = "/mllib")
 public abstract class AbstractExecuteController extends AbstractBaseController {
     @Autowired
     protected RedisTemplate redisTemplate;
@@ -71,52 +70,50 @@ public abstract class AbstractExecuteController extends AbstractBaseController {
 
     protected abstract BaseResponseVo submit(HttpSession session, JSONObject jsonObject);
 
-    protected String mllibName() {
-        return "";
-    }
+    protected abstract String mllibName();
 
     protected String appName(HttpSession session) {
-        Object appName = session.getAttribute(mllibName() + "_" + "app_name");
+        Object appName = session.getAttribute("app_name");
         return ObjectUtils.isNotEmpty(appName) ? appName.toString() : null;
     }
 
     protected String master(HttpSession session) {
-        Object master = session.getAttribute(mllibName() + "_" + "master");
+        Object master = session.getAttribute("master");
         return ObjectUtils.isNotEmpty(master) ? master.toString() : null;
     }
 
     protected String yarnPath(HttpSession session) {
-        Object yarnPath = session.getAttribute(mllibName() + "_" + "yarn_path");
+        Object yarnPath = session.getAttribute("yarn_path");
         return ObjectUtils.isNotEmpty(yarnPath) ? yarnPath.toString() : null;
     }
 
     protected String sparkHome(HttpSession session) {
-        Object sparkName = session.getAttribute(mllibName() + "_" + "spark_home_path");
+        Object sparkName = session.getAttribute("spark_home_path");
         return ObjectUtils.isNotEmpty(sparkName) ? sparkName.toString() : null;
     }
 
     protected String appResource(HttpSession session) {
-        Object sparkName = session.getAttribute(mllibName() + "_" + "app_resource");
+        Object sparkName = session.getAttribute("app_resource");
         return ObjectUtils.isNotEmpty(sparkName) ? sparkName.toString() : null;
     }
 
     protected String hadoopConfPath(HttpSession session) {
-        Object sparkName = session.getAttribute(mllibName() + "_" + "hadoop_conf_path");
+        Object sparkName = session.getAttribute("hadoop_conf_path");
         return ObjectUtils.isNotEmpty(sparkName) ? sparkName.toString() : null;
     }
 
     protected String javaHome(HttpSession session) {
-        Object sparkName = session.getAttribute(mllibName() + "_" + "java_home_path");
+        Object sparkName = session.getAttribute("java_home_path");
         return ObjectUtils.isNotEmpty(sparkName) ? sparkName.toString() : null;
     }
 
     protected String hdfsPath(HttpSession session) {
-        Object sparkName = session.getAttribute(mllibName() + "_" + "hdfs_path");
+        Object sparkName = session.getAttribute("hdfs_path");
         return ObjectUtils.isNotEmpty(sparkName) ? sparkName.toString() : null;
     }
 
     protected String sessionStringValue(HttpSession session, String name) {
-        Object sparkName = session.getAttribute((name.startsWith(mllibName())) ? name : (mllibName() + "_" + name));
+        Object sparkName = session.getAttribute(name);
         return ObjectUtils.isNotEmpty(sparkName) ? sparkName.toString() : null;
     }
 }

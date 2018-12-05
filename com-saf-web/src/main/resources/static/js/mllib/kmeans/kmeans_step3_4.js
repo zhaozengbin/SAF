@@ -1,3 +1,5 @@
+var background_colors;
+
 function init_step4_form() {
     layui.use('form', function () {
         var form = layui.form;
@@ -71,7 +73,7 @@ function disconnect_step4(is_reload) {
         stompClient.disconnect();
     }
     if (is_reload) {
-        reload_step4_ui(fkmeanse);
+        reload_step4_ui(false);
     }
     console.log("Disconnected");
 }
@@ -83,12 +85,22 @@ function showResponse_step4(message) {
         && message.responseMessageId.indexOf('variance') >= 0) {
         if (message.responseMessageFormat == 'json') {
             var json = JSON.parse(message.responseMessage);
-            if (json.type == 2) {
-                if (json.data) {
+            if (!background_colors) {
+                background_colors = saf_color.random($('#kmeans_best_k').val());
+            }
+
+            var msg = '<tr style="{0}"><td>{1}</td><td>{2}</td></tr>';
+            if (json.type && json.data) {
+                if (json.type == 2) {
                     var data = json.data;
-                    var msg = '<tr style="{0}"><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>';
-                    var style = '';
-                    $('#recommend_model_tbody').append(msg.format(style, data.id, data.title, data.type, data.rating));
+                    var style = 'color: ' + background_colors[data.group] + ';';
+                    $('#recommend_model_tbody').append(msg.format(style, data.group, data.data));
+                }
+
+                if (json.type == 3) {
+                    var data = json.data;
+                    var style = 'color: ' + background_colors[data.group] + ';font-weight: 800;';
+                    $('#recommend_test_model_tbody').append(msg.format(style, data.group, data.data));
                 }
             }
         } else if (message.responseMessageFormat == 'string') {

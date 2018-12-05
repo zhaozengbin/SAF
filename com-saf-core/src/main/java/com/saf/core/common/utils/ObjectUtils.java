@@ -561,6 +561,25 @@ public class ObjectUtils {
         return null;
     }
 
+    public static List<String> basic2StringList(List list) {
+        if (isNotEmpty(list)) {
+            List<String> result = new ArrayList<>();
+            for (Object item : list) {
+                result.add(String.valueOf(item));
+            }
+            return result;
+        }
+        return null;
+    }
+
+    public static List<Integer> getStart2EndNumber(int startNum, int endNum) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = startNum; i <= endNum; i++) {
+            result.add(i);
+        }
+        return result;
+    }
+
     public static boolean isNumber(String string) {
         return StringUtils.isNumeric(string);
     }

@@ -88,26 +88,23 @@ function showResponse_step3(message) {
                 if (json.data) {
                     var data = json.data;
                     // var msg = '<p style="{0}">元素因素:{1},正则系数:{2},信心权重:{3},循环次数:{4} --- 评分:{5}</p>';
-                    var rank_min_max = '(' + $('#kmeans_rank_min').val() + '/' + $('#kmeans_rank_max').val() + ')';
-                    var lambda_min_max = '(' + $('#kmeans_lambda_min').val() + '/' + $('#kmeans_lambda_max').val() + ')';
-                    var alpha_min_max = '(' + $('#kmeans_alpha_min').val() + '/' + $('#kmeans_alpha_max').val() + ')';
-                    var iter_min_max = '(' + $('#kmeans_iter_min').val() + '/' + $('#kmeans_iter_max').val() + ')';
+                    var k_min_max = '(' + $('#kmeans_k_min').val() + '/' + $('#kmeans_k_max').val() + ')';
+                    var maxIterations_min_max = '(' + $('#kmeans_maxIterations_min').val() + '/' + $('#kmeans_maxIterations_max').val() + ')';
+                    var runs_min_max = '(' + $('#kmeans_runs_min').val() + '/' + $('#kmeans_runs_max').val() + ')';
 
-
-                    var msg = '<tr style="{0}"><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>';
+                    var msg = '<tr style="{0}"><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>';
                     var style = '';
-                    var is_end = fkmeanse;
+                    var is_end = false;
                     var data_type = '验证数据';
                     if (data.isBest) {
                         style = 'color: red;font-weight: 900;';
-                        $('#kmeans_best_rank').attr('value', data.rank);
-                        $('#kmeans_best_lambda').attr('value', data.lambda);
-                        $('#kmeans_best_alpha').attr('value', data.alpha);
-                        $('#kmeans_best_iter').attr('value', data.iter);
+                        $('#kmeans_best_k').attr('value', data.k);
+                        $('#kmeans_best_maxIterations').attr('value', data.iter);
+                        $('#kmeans_best_runs').attr('value', data.run);
                         data_type = '测试数据<br >(通过验证数据获取的最优计算模型)';
                         is_end = true;
                     }
-                    $('#variance_model_tbody').append(msg.format(style, rank_min_max + ' - ' + data.rank, lambda_min_max + ' - ' + data.lambda, alpha_min_max + ' - ' + data.alpha, iter_min_max + ' - ' + data.iter, data.dataRnse, data_type));
+                    $('#variance_model_tbody').append(msg.format(style, k_min_max + ' - ' + data.k, maxIterations_min_max + ' - ' + data.iter, runs_min_max + ' - ' + data.run, data.cost, data_type));
                     if (is_end) {
                         saf_layer.confirm('根据提供的算法参数已经计算出最优方案,是否进行数据推荐计算', ['是', '否'], function () {
                                 $('#recommend_setting_tab').click();
@@ -116,6 +113,8 @@ function showResponse_step3(message) {
                     }
                 }
             }
+
+
         } else if (message.responseMessageFormat == 'string') {
             $('#spark_variance_run_status').html(message.responseMessage);
         }

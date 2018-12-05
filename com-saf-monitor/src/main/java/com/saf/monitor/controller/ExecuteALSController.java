@@ -3,26 +3,20 @@ package com.saf.monitor.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.saf.core.base.BaseResponseVo;
 import com.saf.core.common.utils.ObjectUtils;
-import com.saf.core.controller.AbstractExecuteController;
 import com.saf.mllib.als.app.ALS;
 import com.saf.mllib.core.common.constant.ConstantSparkTask;
-import com.saf.mllib.core.common.utils.SparkUtils;
 import com.saf.monitor.socket.service.WebSocketService;
-import com.saf.monitor.thread.MonitorRunable;
-import org.apache.spark.launcher.SparkLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/mllib/als")
-public class ExecuteController extends AbstractExecuteController {
+public class ExecuteALSController extends AbstractParentExecuteController {
 
     @Autowired
     private WebSocketService webSocketService;
@@ -39,13 +33,13 @@ public class ExecuteController extends AbstractExecuteController {
         if (jsonObject.containsKey("recommend_num")) {
             recommendNum = jsonObject.getIntValue("recommend_num");
         }
-        if (jsonObject.containsKey("als_step_flag")) {
+        if (jsonObject.containsKey("step_flag")) {
             String rank = null;
             String lambda = null;
             String alpha = null;
             String iter = null;
             String proportion = null;
-            if (jsonObject.getString("als_step_flag").equalsIgnoreCase("training")) {
+            if (jsonObject.getString("step_flag").equalsIgnoreCase("training")) {
                 if (jsonObject.containsKey("local_model") && jsonObject.getBoolean("local_model")) {
                     localModel = true;
                 }
@@ -78,7 +72,7 @@ public class ExecuteController extends AbstractExecuteController {
                         iter = String.join(",", jsonObject.getString("als_iter_min"), jsonObject.getString("als_iter_max"));
                     }
                 }
-            } else if (jsonObject.getString("als_step_flag").equalsIgnoreCase("recommend")) {
+            } else if (jsonObject.getString("step_flag").equalsIgnoreCase("recommend")) {
                 if (jsonObject.containsKey("recommend_local_model") && jsonObject.getBoolean("recommend_local_model")) {
                     localModel = true;
                 }
@@ -123,7 +117,7 @@ public class ExecuteController extends AbstractExecuteController {
                     alpha,
                     iter,
                     proportion,
-                    jsonObject.getString("als_step_flag"),
+                    jsonObject.getString("step_flag"),
                     false,
                     recommendNum
             );
@@ -173,49 +167,18 @@ public class ExecuteController extends AbstractExecuteController {
                 ALS.main(mainArgs);
                 return success("提交成功");
             } else {
-                Map<String, String> env = new HashMap<>();
-                //这两个属性必须设置
-                // /usr/local/Cellar/hadoop/3.1.0/libexec/etc/hadoop
-                env.put("HADOOP_CONF_DIR", hadoopConfDir);
-                // /Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home
-                env.put("JAVA_HOME", javaHome);
-                Process process = new SparkLauncher(env)
-                        .setAppName(appName)
-                        .setSparkHome(sparkHome)
-                        .setMaster(master)
-                        .setConf("spark.driver.memory", "2g")
-                        .setConf("spark.executor.memory", "1g")
-                        .setConf("spark.executor.cores", "3")
-                        .setAppResource(appResource)
-                        .setMainClass(mainClass)
-                        .setJavaHome(javaHome)
-                        .addAppArgs(mainArgs)
-                        .setDeployMode("cluster")//cluster
-                        .launch();
-//                InputStreamReaderRunnable inputStreamReaderRunnable = new InputStreamReaderRunnable(process.getInputStream(), "input");
-//                Thread inputThread = new Thread(inputStreamReaderRunnable, "LogStreamReader input");
-//                inputThread.start();
-//                InputStreamReaderRunnable errorStreamReaderRunnable = new InputStreamReaderRunnable(process.getErrorStream(), "error");
-//                Thread errorThread = new Thread(errorStreamReaderRunnable, "LogStreamReader error");
-//                errorThread.start();
-                SparkUtils.SparkResult sparkResult = SparkUtils.inputStreamReade(process);
-                super.addSparkTask(ConstantSparkTask.ALS_CURRENT_SUBMISSIONID, sparkResult.getSubmissionId());
-                System.out.println("Waiting for finish...");
-                int exitCode = process.waitFor();
-                System.out.println("Finished! Exit code:" + exitCode);
-                new Thread(new MonitorRunable(ConstantSparkTask.ALS_CURRENT_SUBMISSIONID, sparkResult.getSubmissionId(), master, webSocketService)).start();
-                if (sparkResult.isSuccess()) {
-                    String submissionId = redisTemplate.opsForValue().get(ConstantSparkTask.ALS_CURRENT_SUBMISSIONID).toString();
-                    jsonObject.put(ConstantSparkTask.ALS_CURRENT_SUBMISSIONID, submissionId);
-                    jsonObject.put("msg", "提交成功");
-                    return success(jsonObject.toJSONString());
-                } else {
-                    return fail("提交失败");
-                }
+                return super.submit(mainArgs, hadoopConfDir, javaHome, appName, sparkHome, master, appResource, mainClass,
+                        ConstantSparkTask.ALS_CURRENT_SUBMISSIONID);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return fail("提交失败");
     }
+
+    @Override
+    protected String mllibName() {
+        return "als";
+    }
+
 }
