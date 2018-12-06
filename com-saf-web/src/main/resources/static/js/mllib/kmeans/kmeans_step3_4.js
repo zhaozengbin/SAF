@@ -91,15 +91,11 @@ function showResponse_step4(message) {
 
             var msg = '<tr style="{0}"><td>{1}</td><td>{2}</td></tr>';
             if (json.type && json.data) {
+                var data = json.data;
+                var style = 'color: ' + background_colors[data.group] + ';';
                 if (json.type == 2) {
-                    var data = json.data;
-                    var style = 'color: ' + background_colors[data.group] + ';';
                     $('#recommend_model_tbody').append(msg.format(style, data.group, data.data));
-                }
-
-                if (json.type == 3) {
-                    var data = json.data;
-                    var style = 'color: ' + background_colors[data.group] + ';font-weight: 800;';
+                } else if (json.type == 3) {
                     $('#recommend_test_model_tbody').append(msg.format(style, data.group, data.data));
                 }
             }

@@ -5,6 +5,7 @@ import com.saf.core.base.BaseResponseVo;
 import com.saf.core.common.utils.ObjectUtils;
 import com.saf.mllib.core.common.constant.ConstantSparkTask;
 import com.saf.mllib.kmeans.app.KMeans;
+import com.saf.monitor.socket.entity.WebSocketResponseMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -117,6 +118,8 @@ public class ExecuteKMeansController extends AbstractParentExecuteController {
             if (localMode) {
                 mainArgs[1] = "local[1]";
                 KMeans.main(mainArgs);
+                webSocketService.sendMsg(new WebSocketResponseMessage(WebSocketResponseMessage.EWebSocketResponseMessageType.PROGRESS, WebSocketResponseMessage.EWebSocketResponseMessageFormat.NUMBER, "", 100));
+                webSocketService.sendMsg(new WebSocketResponseMessage(WebSocketResponseMessage.EWebSocketResponseMessageType.CONSOLE, WebSocketResponseMessage.EWebSocketResponseMessageFormat.STRING, "" + "_variance", "任务状态:FINISHED"));
                 return success("提交成功");
             } else {
                 return super.submit(mainArgs, hadoopConfDir, javaHome, appName, sparkHome, master, appResource, mainClass, ConstantSparkTask.KMEANS_CURRENT_SUBMISSIONID);

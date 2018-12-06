@@ -5,8 +5,7 @@ import com.saf.core.base.BaseResponseVo;
 import com.saf.core.common.utils.ObjectUtils;
 import com.saf.mllib.als.app.ALS;
 import com.saf.mllib.core.common.constant.ConstantSparkTask;
-import com.saf.monitor.socket.service.WebSocketService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.saf.monitor.socket.entity.WebSocketResponseMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,9 +16,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/mllib/als")
 public class ExecuteALSController extends AbstractParentExecuteController {
-
-    @Autowired
-    private WebSocketService webSocketService;
 
     @Override
     protected BaseResponseVo submit(HttpSession session, JSONObject jsonObject) {
@@ -165,6 +161,8 @@ public class ExecuteALSController extends AbstractParentExecuteController {
             if (localMode) {
                 mainArgs[1] = "local[1]";
                 ALS.main(mainArgs);
+                webSocketService.sendMsg(new WebSocketResponseMessage(WebSocketResponseMessage.EWebSocketResponseMessageType.PROGRESS, WebSocketResponseMessage.EWebSocketResponseMessageFormat.NUMBER, "", 100));
+                webSocketService.sendMsg(new WebSocketResponseMessage(WebSocketResponseMessage.EWebSocketResponseMessageType.CONSOLE, WebSocketResponseMessage.EWebSocketResponseMessageFormat.STRING, "" + "_variance", "任务状态:FINISHED"));
                 return success("提交成功");
             } else {
                 return super.submit(mainArgs, hadoopConfDir, javaHome, appName, sparkHome, master, appResource, mainClass,

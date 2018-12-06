@@ -18,7 +18,7 @@ import java.util.Map;
 public abstract class AbstractParentExecuteController extends AbstractExecuteController {
 
     @Autowired
-    private WebSocketService webSocketService;
+    protected WebSocketService webSocketService;
 
     protected BaseResponseVo submit(String[] mainArgs, String hadoopConfDir, String javaHome, String appName, String sparkHome, String master, String appResource, String mainClass, String submissionIdKey) throws InterruptedException, IOException {
         Map<String, String> env = new HashMap<>();
