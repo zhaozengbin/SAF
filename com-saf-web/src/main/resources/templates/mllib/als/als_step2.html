@@ -1,0 +1,105 @@
+<!-- 内容主体区域 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:include="common/heard :: heard"></div>
+<div th:include="common/heard :: url"></div>
+<div th:include="common/heard :: js"></div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>数据样本</legend>
+</fieldset>
+
+<div class="layui-tab">
+    <ul class="layui-tab-title">
+        <li class="layui-this">数据样本描述</li>
+        <li>user_artist_data.txt</li>
+        <li>artist_data.txt</li>
+        <li>artist_alias.txt</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>数据样本描述</legend>
+            </fieldset>
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">用户信息数据</div>
+                            <div class="layui-card-body">
+                                文件名:users.dat<br>
+                                分四列:用户ID::性别::年龄::职业编号::邮编
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">电影信息数据</div>
+                            <div class="layui-card-body">
+                                文件名:movies.dat<br>
+                                分三列:电影ID::电影名称::电影种类
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">用户评分电影数据</div>
+                            <div class="layui-card-body">
+                                文件名:ratings.dat<br>
+                                分四列:用户ID::电影ID::评分::时间
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">测试数据</div>
+                            <div class="layui-card-body">
+                                文件名:personalRatings.txt<br>
+                                分四列:用户ID::电影ID::评分::时间
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            1::F::1::10::48067 <br/>
+            2::M::56::16::70072 <br/>
+            3::M::25::15::55117 <br/>
+            4::M::45::7::02460 <br/>
+            5::M::25::20::55455 <br/>
+            6::F::50::9::55117 <br/>
+            7::M::35::1::06810 <br/>
+            8::M::25::12::11413 <br/>
+            9::M::25::17::61614 <br/>
+            10::F::35::1::95370 <br/>
+
+        </div>
+        <div class="layui-tab-item">
+            1::Toy Story (1995)::Animation|Children's|Comedy <br/>
+            2::Jumanji (1995)::Adventure|Children's|Fantasy <br/>
+            3::Grumpier Old Men (1995)::Comedy|Romance <br/>
+            4::Waiting to Exhale (1995)::Comedy|Drama <br/>
+            5::Father of the Bride Part II (1995)::Comedy <br/>
+            6::Heat (1995)::Action|Crime|Thriller <br/>
+            7::Sabrina (1995)::Comedy|Romance <br/>
+            8::Tom and Huck (1995)::Adventure|Children's <br/>
+            9::Sudden Death (1995)::Action <br/>
+            10::GoldenEye (1995)::Action|Adventure|Thriller <br/>
+            11::American President, The (1995)::Comedy|Drama|Romance <br/>
+
+        </div>
+        <div class="layui-tab-item">
+            1::1193::5::978300760 <br/>
+            1::661::3::978302109 <br/>
+            1::914::3::978301968 <br/>
+            1::3408::4::978300275 <br/>
+            1::2355::5::978824291 <br/>
+            1::1197::3::978302268 <br/>
+            1::1287::5::978302039 <br/>
+            1::2804::5::978300719 <br/>
+            1::594::4::978302268 <br/>
+            1::919::4::978301368 <br/>
+            1::595::5::978824268 <br/>
+
+        </div>
+    </div>
+</div>
