@@ -7,13 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="com-saf-core" />
-        <module name="com-saf-mllib" />
-        <module name="com-saf-mllib-als" />
+        <module name="com-saf-web" />
         <module name="com-saf-mllib-core" />
         <module name="com-saf-mllib-kmeans" />
+        <module name="com-saf-mllib" />
         <module name="com-saf-monitor" />
+        <module name="com-saf-mllib-kmenas" />
+        <module name="com-saf-mllib-als" />
         <module name="com-saf-security" />
-        <module name="com-saf-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />
