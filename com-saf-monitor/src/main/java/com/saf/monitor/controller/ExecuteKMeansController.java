@@ -26,7 +26,7 @@ public class ExecuteKMeansController extends AbstractParentExecuteController {
             String maxIterations = null;
             String runs = null;
             if (jsonObject.getString("step_flag").equalsIgnoreCase("training")) {
-                if (jsonObject.containsKey("local_model") && jsonObject.getBoolean("local_model")) {
+                if (jsonObject.containsKey("local_model") && jsonObject.getBooleanValue("local_model")) {
                     localModel = true;
                 }
                 if (jsonObject.containsKey("kmeans_k_min") && jsonObject.containsKey("kmeans_k_max")) {
@@ -52,7 +52,7 @@ public class ExecuteKMeansController extends AbstractParentExecuteController {
                     }
                 }
             } else if (jsonObject.getString("step_flag").equalsIgnoreCase("recommend")) {
-                if (jsonObject.containsKey("recommend_local_model") && jsonObject.getBoolean("recommend_local_model")) {
+                if (jsonObject.containsKey("recommend_local_model") && jsonObject.getBooleanValue("recommend_local_model")) {
                     localModel = true;
                 }
                 if (jsonObject.containsKey("kmeans_best_k")) {
@@ -118,7 +118,7 @@ public class ExecuteKMeansController extends AbstractParentExecuteController {
             if (localMode) {
                 mainArgs[1] = "local[1]";
                 KMeans.main(mainArgs);
-                webSocketService.sendMsg(new WebSocketResponseMessage(WebSocketResponseMessage.EWebSocketResponseMessageType.PROGRESS, WebSocketResponseMessage.EWebSocketResponseMessageFormat.NUMBER, "", 100));
+                webSocketService.sendMsg(new WebSocketResponseMessage(WebSocketResponseMessage.EWebSocketResponseMessageType.PROGRESS, WebSocketResponseMessage.EWebSocketResponseMessageFormat.NUMBER, "", 100l));
                 webSocketService.sendMsg(new WebSocketResponseMessage(WebSocketResponseMessage.EWebSocketResponseMessageType.CONSOLE, WebSocketResponseMessage.EWebSocketResponseMessageFormat.STRING, "" + "_variance", "任务状态:FINISHED"));
                 return success("提交成功");
             } else {

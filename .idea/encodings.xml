@@ -5,13 +5,11 @@
     <file url="file://$PROJECT_DIR$/com-saf-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/com-saf-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/com-saf-mllib" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/com-saf-mllib-als" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/com-saf-mllib-als/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/com-saf-mllib-als/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/com-saf-mllib-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/com-saf-mllib-core/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/com-saf-mllib-kmeans" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/com-saf-mllib-kmeans/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-saf-mllib/com-saf-mllib-als/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-saf-mllib/com-saf-mllib-als/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-saf-mllib/com-saf-mllib-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-saf-mllib/com-saf-mllib-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-saf-mllib/com-saf-mllib-kmeans/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/com-saf-mllib/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/com-saf-mllib/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/com-saf-monitor" charset="UTF-8" />

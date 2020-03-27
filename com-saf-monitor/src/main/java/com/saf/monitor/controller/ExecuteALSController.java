@@ -36,59 +36,59 @@ public class ExecuteALSController extends AbstractParentExecuteController {
             String iter = null;
             String proportion = null;
             if (jsonObject.getString("step_flag").equalsIgnoreCase("training")) {
-                if (jsonObject.containsKey("local_model") && jsonObject.getBoolean("local_model")) {
+                if (jsonObject.containsKey("local_model") && jsonObject.getBooleanValue("local_model")) {
                     localModel = true;
                 }
-                if (jsonObject.containsKey("als_rank_min") && jsonObject.containsKey("als_rank_max")) {
-                    if (jsonObject.getString("als_rank_min").equalsIgnoreCase(jsonObject.getString("als_rank_max"))) {
-                        rank = jsonObject.getString("als_rank_min");
+                if (jsonObject.containsKey("rank_min") && jsonObject.containsKey("rank_max")) {
+                    if (jsonObject.getString("rank_min").equalsIgnoreCase(jsonObject.getString("rank_max"))) {
+                        rank = jsonObject.getString("rank_min");
                     } else {
-                        rank = String.join(",", jsonObject.getString("als_rank_min"), jsonObject.getString("als_rank_max"));
+                        rank = String.join(",", jsonObject.getString("rank_min"), jsonObject.getString("rank_max"));
                     }
                 }
-                if (jsonObject.containsKey("als_lambda_min") && jsonObject.containsKey("als_lambda_max")) {
-                    if (jsonObject.getString("als_lambda_min").equalsIgnoreCase(jsonObject.getString("als_lambda_max"))) {
-                        lambda = jsonObject.getString("als_lambda_min");
+                if (jsonObject.containsKey("lambda_min") && jsonObject.containsKey("lambda_max")) {
+                    if (jsonObject.getString("lambda_min").equalsIgnoreCase(jsonObject.getString("lambda_max"))) {
+                        lambda = jsonObject.getString("lambda_min");
                     } else {
-                        lambda = String.join(",", jsonObject.getString("als_lambda_min"), jsonObject.getString("als_lambda_max"));
+                        lambda = String.join(",", jsonObject.getString("lambda_min"), jsonObject.getString("lambda_max"));
                     }
                 }
-                if (jsonObject.containsKey("als_alpha_min") && jsonObject.containsKey("als_alpha_max")) {
-                    if ((jsonObject.getString("als_alpha_min").equalsIgnoreCase(jsonObject.getString("als_alpha_max")))
-                            || jsonObject.getString("als_alpha_min").equalsIgnoreCase("0")) {
-                        alpha = jsonObject.getString("als_alpha_min");
+                if (jsonObject.containsKey("alpha_min") && jsonObject.containsKey("alpha_max")) {
+                    if ((jsonObject.getString("alpha_min").equalsIgnoreCase(jsonObject.getString("alpha_max")))
+                            || jsonObject.getString("alpha_min").equalsIgnoreCase("0")) {
+                        alpha = jsonObject.getString("alpha_min");
                     } else {
-                        alpha = String.join(",", jsonObject.getString("als_alpha_min"), jsonObject.getString("als_alpha_max"));
+                        alpha = String.join(",", jsonObject.getString("alpha_min"), jsonObject.getString("alpha_max"));
                     }
                 }
-                if (jsonObject.containsKey("als_iter_min") && jsonObject.containsKey("als_iter_max")) {
-                    if (jsonObject.getString("als_iter_min").equalsIgnoreCase(jsonObject.getString("als_iter_max"))) {
-                        iter = jsonObject.getString("als_iter_min");
+                if (jsonObject.containsKey("iter_min") && jsonObject.containsKey("iter_max")) {
+                    if (jsonObject.getString("iter_min").equalsIgnoreCase(jsonObject.getString("iter_max"))) {
+                        iter = jsonObject.getString("iter_min");
                     } else {
-                        iter = String.join(",", jsonObject.getString("als_iter_min"), jsonObject.getString("als_iter_max"));
+                        iter = String.join(",", jsonObject.getString("iter_min"), jsonObject.getString("iter_max"));
                     }
                 }
             } else if (jsonObject.getString("step_flag").equalsIgnoreCase("recommend")) {
-                if (jsonObject.containsKey("recommend_local_model") && jsonObject.getBoolean("recommend_local_model")) {
+                if (jsonObject.containsKey("recommend_local_model") && jsonObject.getBooleanValue("recommend_local_model")) {
                     localModel = true;
                 }
-                if (jsonObject.containsKey("als_best_rank")) {
-                    rank = jsonObject.getString("als_best_rank");
+                if (jsonObject.containsKey("best_rank")) {
+                    rank = jsonObject.getString("best_rank");
                 }
-                if (jsonObject.containsKey("als_best_lambda")) {
-                    lambda = jsonObject.getString("als_best_lambda");
+                if (jsonObject.containsKey("best_lambda")) {
+                    lambda = jsonObject.getString("best_lambda");
                 }
-                if (jsonObject.containsKey("als_best_alpha")) {
-                    alpha = jsonObject.getString("als_best_alpha");
+                if (jsonObject.containsKey("best_alpha")) {
+                    alpha = jsonObject.getString("best_alpha");
                 }
-                if (jsonObject.containsKey("als_best_iter")) {
-                    iter = jsonObject.getString("als_best_iter");
+                if (jsonObject.containsKey("best_iter")) {
+                    iter = jsonObject.getString("best_iter");
                 }
             }
-            if (jsonObject.containsKey("als_training_proportion") && jsonObject.containsKey("als_validata_proportion") && jsonObject.containsKey("als_test_proportion")) {
-                proportion = String.join(",", jsonObject.getString("als_training_proportion"),
-                        jsonObject.getString("als_validata_proportion"),
-                        jsonObject.getString("als_test_proportion"));
+            if (jsonObject.containsKey("training_proportion") && jsonObject.containsKey("validata_proportion") && jsonObject.containsKey("test_proportion")) {
+                proportion = String.join(",", jsonObject.getString("training_proportion"),
+                        jsonObject.getString("validata_proportion"),
+                        jsonObject.getString("test_proportion"));
             }
             if (ObjectUtils.isEmpty(rank) || ObjectUtils.isEmpty(lambda) || ObjectUtils.isEmpty(alpha) || ObjectUtils.isEmpty(iter) || ObjectUtils.isEmpty(proportion)) {
                 return fail("必传参数为空");
@@ -102,10 +102,10 @@ public class ExecuteALSController extends AbstractParentExecuteController {
                     hadoopConfPath(session),
                     javaHome(session),
                     hdfsPath(session),
-                    sessionStringValue(session, "als_user_data"),
-                    sessionStringValue(session, "als_product_data"),
-                    sessionStringValue(session, "als_ratings_data"),
-                    sessionStringValue(session, "als_personalRatings_data"),
+                    sessionStringValue(session, "user_data"),
+                    sessionStringValue(session, "product_data"),
+                    sessionStringValue(session, "ratings_data"),
+                    sessionStringValue(session, "personalRatings_data"),
                     3,
                     userId,
                     rank,
@@ -122,8 +122,8 @@ public class ExecuteALSController extends AbstractParentExecuteController {
     }
 
 //    public static void main(String[] args) {
-//        submit(true, "ALS", "spark://127.0.0.1:6066", "/usr/local/Cellar/apache-spark/2.3.1/libexec", "com.saf.mllib.als.app.ALS", "/Users/zhaozengbin/git/com-saf-parent/com-saf-mllib-als/target/com-saf-mllib-als-1.0-SNAPSHOT.jar",
-//                "/usr/local/Cellar/hadoop/3.1.0/libexec/etc/hadoop", "/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home", "hdfs://localhost:9000",usersPath, productPath, ratingsPath, usersProductRatingsPath);
+//        submit(true, "ALS", "spark://127.0.0.1:6066", "/usr/local/Cellar/apache-spark/2.3.1/libexec", "com.saf.mllib.als.app.ALS", "/Users/zhaozengbin/git/com-saf-parent/com-saf-mllib/com-saf-mllib-als/target/com-saf-mllib-als-1.0-SNAPSHOT.jar",
+//                "/usr/local/Cellar/hadoop/x.x.x/libexec/etc/hadoop", "/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home", "hdfs://localhost:9000",usersPath, productPath, ratingsPath, usersProductRatingsPath);
 //    }
 
     private BaseResponseVo submit(boolean localMode, String appName, String master, String sparkHome,
@@ -161,7 +161,7 @@ public class ExecuteALSController extends AbstractParentExecuteController {
             if (localMode) {
                 mainArgs[1] = "local[1]";
                 ALS.main(mainArgs);
-                webSocketService.sendMsg(new WebSocketResponseMessage(WebSocketResponseMessage.EWebSocketResponseMessageType.PROGRESS, WebSocketResponseMessage.EWebSocketResponseMessageFormat.NUMBER, "", 100));
+                webSocketService.sendMsg(new WebSocketResponseMessage(WebSocketResponseMessage.EWebSocketResponseMessageType.PROGRESS, WebSocketResponseMessage.EWebSocketResponseMessageFormat.NUMBER, "", 100l));
                 webSocketService.sendMsg(new WebSocketResponseMessage(WebSocketResponseMessage.EWebSocketResponseMessageType.CONSOLE, WebSocketResponseMessage.EWebSocketResponseMessageFormat.STRING, "" + "_variance", "任务状态:FINISHED"));
                 return success("提交成功");
             } else {

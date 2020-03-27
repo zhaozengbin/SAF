@@ -14,9 +14,6 @@
         <module>com-saf-monitor</module>
         <module>com-saf-web</module>
         <module>com-saf-mllib</module>
-        <module>com-saf-mllib-core</module>
-        <module>com-saf-mllib-als</module>
-        <module>com-saf-mllib-kmeans</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

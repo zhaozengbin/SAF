@@ -17,8 +17,8 @@
             <div class="layui-input-block">
                 <input type="text" name="hadoop_conf_path" id="hadoop_conf_path"
                        autocomplete="off"
-                       placeholder="/usr/local/Cellar/hadoop/3.1.0/libexec/etc/hadoop"
-                       th:value="${session.hadoop_conf_path==null?'/usr/local/Cellar/hadoop/3.1.0/libexec/etc/hadoop':session.hadoop_conf_path}"
+                       placeholder="/usr/local/Cellar/hadoop/x.x.x/libexec/etc/hadoop"
+                       th:value="${session.hadoop_conf_path==null?'/usr/local/Cellar/hadoop/x.x.x/libexec/etc/hadoop':session.hadoop_conf_path}"
                        class="layui-input">
             </div>
         </div>
@@ -28,7 +28,7 @@
                 <input type="text" name="spark_home_path" id="spark_home_path"
                        autocomplete="off"
                        placeholder="ALS"
-                       th:value="${session.spark_home_path==null?'/usr/local/Cellar/apache-spark/2.3.1/libexec':session.spark_home_path}"
+                       th:value="${session.spark_home_path==null?'/usr/local/Cellar/apache-spark/x.x.x/libexec':session.spark_home_path}"
                        class="layui-input">
             </div>
         </div>
@@ -66,8 +66,8 @@
             <label class="layui-form-label">Spark计算jar文件</label>
             <div class="layui-input-block">
                 <input type="text" name="app_resource" id="app_resource" autocomplete="off"
-                       placeholder="/Users/zhaozengbin/git/com-saf-parent/com-saf-mllib-als/target/com-saf-mllib-als-1.0-SNAPSHOT-jar-with-dependencies.jar"
-                       th:value="${session.app_resource==null?'/Users/zhaozengbin/git/com-saf-parent/com-saf-mllib-als/target/com-saf-mllib-als-1.0-SNAPSHOT-jar-with-dependencies.jar':session.app_resource}"
+                       placeholder="/Users/zhaozengbin/git/com-saf-parent/com-saf-mllib/com-saf-mllib-als/target/com-saf-mllib-als-1.0-SNAPSHOT-jar-with-dependencies.jar"
+                       th:value="${session.app_resource==null?'/Users/zhaozengbin/git/com-saf-parent/com-saf-mllib/com-saf-mllib-als/target/com-saf-mllib-als-1.0-SNAPSHOT-jar-with-dependencies.jar':session.app_resource}"
                        class="layui-input">
             </div>
         </div>

@@ -3,7 +3,7 @@ var data_setting_form_id = "#data_setting_form";
 var monitor_path = $('#monitor_path').val();
 
 var stompClient = null;
-var als_current_submissionid;
+var current_submissionid;
 
 // 初始化加载
 (function ($) {

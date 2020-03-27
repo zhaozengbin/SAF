@@ -11,11 +11,11 @@
                 <label class="layui-form-label">元素因素（rank）</label>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_best_rank"
-                           id="als_best_rank"
+                           name="best_rank"
+                           id="best_rank"
                            lay-verify="required|number"
                            autocomplete="off"
-                           th:value="${session.als_best_rank==null?'':session.als_best_rank}"
+                           th:value="${session.best_rank==null?'':session.best_rank}"
                            class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">模型的潜在因素的个数，即“用户-特征”和“产品-特征”矩阵的列数；一般来说，它也是矩阵的阶</div>
@@ -24,10 +24,10 @@
                 <label class="layui-form-label">正则系数（lambda）</label>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_best_lambda"
-                           id="als_best_lambda"
+                           name="best_lambda"
+                           id="best_lambda"
                            lay-verify="required|number"
-                           th:value="${session.als_best_lambda==null?'':session.als_best_lambda}"
+                           th:value="${session.best_lambda==null?'':session.best_lambda}"
                            autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">标准的过拟合参数；值越大越不容易产生过拟合，但值太大会降低分解的准确度。lambda取较大的值看起来结果要稍微好一些
@@ -37,10 +37,10 @@
                 <label class="layui-form-label">信心权重（alpha）</label>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_best_alpha"
-                           id="als_best_alpha"
+                           name="best_alpha"
+                           id="best_alpha"
                            lay-verify="required|number"
-                           th:value="${session.als_best_alpha==null?'':session.als_best_alpha}"
+                           th:value="${session.best_alpha==null?'':session.best_alpha}"
                            autocomplete="off"
                            class="layui-input">
                 </div>
@@ -51,10 +51,10 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline" style="width: 100px;">
                         <input type="text"
-                               name="als_best_iter"
-                               id="als_best_iter"
+                               name="best_iter"
+                               id="best_iter"
                                lay-verify="required|number"
-                               th:value="${session.als_best_iter==null?'':session.als_best_iter}"
+                               th:value="${session.best_iter==null?'':session.best_iter}"
                                autocomplete="off"
                                class="layui-input">
                     </div>

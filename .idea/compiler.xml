@@ -10,9 +10,7 @@
         <module name="com-saf-web" />
         <module name="com-saf-mllib-core" />
         <module name="com-saf-mllib-kmeans" />
-        <module name="com-saf-mllib" />
         <module name="com-saf-monitor" />
-        <module name="com-saf-mllib-kmenas" />
         <module name="com-saf-mllib-als" />
         <module name="com-saf-security" />
       </profile>

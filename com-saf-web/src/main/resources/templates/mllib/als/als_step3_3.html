@@ -6,13 +6,13 @@
     </div>
     <div style="margin-top: 20px">
         <form class="layui-form" id="form_variance_setting" method="post">
-            <input type="hidden" name="als_step_flag" value="training">
+            <input type="hidden" name="step_flag" value="training">
             <div class="layui-form-item">
                 <label class="layui-form-label">元素因素（rank）</label>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_rank_min"
-                           id="als_rank_min"
+                           name="rank_min"
+                           id="rank_min"
                            lay-verify="required|number"
                            placeholder="8"
                            value="8"
@@ -22,8 +22,8 @@
                 <div class="layui-form-mid">-</div>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_rank_max"
-                           id="als_rank_max"
+                           name="rank_max"
+                           id="rank_max"
                            lay-verify="required|number"
                            placeholder="22"
                            value="22"
@@ -36,8 +36,8 @@
                 <label class="layui-form-label">正则系数（lambda）</label>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_lambda_min"
-                           id="als_lambda_min"
+                           name="lambda_min"
+                           id="lambda_min"
                            lay-verify="required|number"
                            placeholder="0.1"
                            value="0.1"
@@ -47,8 +47,8 @@
                 <div class="layui-form-mid">-</div>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_lambda_max"
-                           id="als_lambda_max"
+                           name="lambda_max"
+                           id="lambda_max"
                            lay-verify="required|number"
                            placeholder="10.0"
                            value="10.0"
@@ -61,8 +61,8 @@
                 <label class="layui-form-label">信心权重（alpha）</label>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_alpha_min"
-                           id="als_alpha_min"
+                           name="alpha_min"
+                           id="alpha_min"
                            lay-verify="required|number"
                            placeholder="1.0"
                            value="1.0"
@@ -72,8 +72,8 @@
                 <div class="layui-form-mid">-</div>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_alpha_max"
-                           id="als_alpha_max"
+                           name="alpha_max"
+                           id="alpha_max"
                            lay-verify="required|number"
                            placeholder="40.0"
                            value="40.0"
@@ -87,8 +87,8 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline" style="width: 100px;">
                         <input type="text"
-                               name="als_iter_min"
-                               id="als_iter_min"
+                               name="iter_min"
+                               id="iter_min"
                                lay-verify="required|number"
                                placeholder="5"
                                value="5"
@@ -98,8 +98,8 @@
                     <div class="layui-form-mid">-</div>
                     <div class="layui-input-inline" style="width: 100px;">
                         <input type="text"
-                               name="als_iter_max"
-                               id="als_iter_max"
+                               name="iter_max"
+                               id="iter_max"
                                lay-verify="required|number"
                                placeholder="7"
                                value="7"
@@ -113,8 +113,8 @@
                 <label class="layui-form-label">训练/验证/测试比重</label>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_training_proportion"
-                           id="als_training_proportion"
+                           name="training_proportion"
+                           id="training_proportion"
                            lay-verify="required|number"
                            placeholder="60"
                            value="60"
@@ -124,8 +124,8 @@
                 <div class="layui-form-mid">-</div>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_validata_proportion"
-                           id="als_validata_proportion"
+                           name="validata_proportion"
+                           id="validata_proportion"
                            lay-verify="required|number"
                            placeholder="20"
                            value="20"
@@ -135,8 +135,8 @@
                 <div class="layui-form-mid">-</div>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text"
-                           name="als_test_proportion"
-                           id="als_test_proportion"
+                           name="test_proportion"
+                           id="test_proportion"
                            lay-verify="required|number"
                            placeholder="20"
                            value="20"

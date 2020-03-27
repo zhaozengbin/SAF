@@ -474,7 +474,7 @@ Launcher Type: SUN_STANDARD
 
 Environment Variables:
 JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/
-PATH=/usr/local/opt/libxslt/bin:/usr/local/opt/libxml2/bin:/Users/zhaozengbin/soft/apache-maven-3.5.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/Cellar/apache-spark/2.3.1/libexec/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home//bin:/usr/local/Cellar/mysql/bin:/Users/zhaozengbin/soft/apache-maven-3.5.2/bin:/usr/local/Cellar/hadoop/3.1.0/libexec/bin
+PATH=/usr/local/opt/libxslt/bin:/usr/local/opt/libxml2/bin:/Users/zhaozengbin/soft/apache-maven-3.5.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/Cellar/apache-spark/2.3.1/libexec/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home//bin:/usr/local/Cellar/mysql/bin:/Users/zhaozengbin/soft/apache-maven-3.5.2/bin:/usr/local/Cellar/hadoop/x.x.x/libexec/bin
 SHELL=/bin/zsh
 
 Signal Handlers:
