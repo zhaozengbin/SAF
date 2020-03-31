@@ -94,7 +94,8 @@ public class ExecuteALSController extends AbstractParentExecuteController {
                 return fail("必传参数为空");
             }
 
-            return submit(localModel, appName(session),
+            return submit(localModel,
+                    appName(session),
                     master(session),
                     sparkHome(session),
                     mainClass,

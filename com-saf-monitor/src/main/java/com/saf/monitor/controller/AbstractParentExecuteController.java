@@ -33,7 +33,8 @@ public abstract class AbstractParentExecuteController extends AbstractExecuteCon
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
         //这里调用setJavaHome()方法后，JAVA_HOME is not set 错误依然存在
-        SparkAppHandle handle = new SparkLauncher(env)
+        String submissionId = null;
+        SparkAppHandle handler = new SparkLauncher(env)
                 .setAppName(appName)
                 .setSparkHome(sparkHome)
                 .setMaster(master)
@@ -44,27 +45,38 @@ public abstract class AbstractParentExecuteController extends AbstractExecuteCon
                 .setMainClass(mainClass)
                 .setJavaHome(javaHome)
                 .addAppArgs(mainArgs)
-                .setDeployMode("cluster")//cluster
-                .setVerbose(true).startApplication(new SparkAppHandle.Listener() {
-                    //这里监听任务状态，当任务结束时（不管是什么原因结束）,isFinal（）方法会返回true,否则返回false
-                    @Override
-                    public void stateChanged(SparkAppHandle sparkAppHandle) {
-                        if (sparkAppHandle.getState().isFinal()) {
-                            countDownLatch.countDown();
-                        }
-                        System.out.println("state:" + sparkAppHandle.getState().toString());
-                    }
-
-
-                    @Override
-                    public void infoChanged(SparkAppHandle sparkAppHandle) {
-                        System.out.println("Info:" + sparkAppHandle.getState().toString());
-                    }
-                });
+                .setDeployMode("cluster")
+                .setVerbose(true)
+                .startApplication();
         System.out.println("The task is executing, please wait ....");
-        //线程等待任务结束
-        countDownLatch.await();
-        System.out.println("The task is finished!");
+        // application执行失败重试机制
+        // 最大重试次数
+        int maxRetrytimes = 3;
+        int currentRetrytimes = 0;
+        while (handler.getState() != SparkAppHandle.State.FINISHED) {
+            currentRetrytimes++;
+            // 每6s查看application的状态（UNKNOWN、SUBMITTED、RUNNING、FINISHED、FAILED、KILLED、 LOST）
+            Thread.sleep(6000L);
+            System.out.println("applicationId is: " + handler.getAppId());
+            System.out.println("current state: " + handler.getState());
+            if ((handler.getAppId() == null && handler.getState() == SparkAppHandle.State.FAILED) && currentRetrytimes > maxRetrytimes) {
+                System.out.println(String.format("tried launching application for %s times but failed, exit.", maxRetrytimes));
+                break;
+            }
+        }
+        if (handler.getState() == SparkAppHandle.State.FINISHED && handler.getAppId() != null) {
+            super.addSparkTask(submissionIdKey, handler.getAppId());
+            new Thread(new MonitorRunable(submissionIdKey, handler.getAppId(), master, webSocketService)).start();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(submissionIdKey, handler.getAppId());
+            jsonObject.put("msg", "提交成功");
+            //线程等待任务结束
+            countDownLatch.await();
+            System.out.println("The task is finished!");
+            return success(jsonObject.toJSONString());
+        } else {
+            return fail("start is fail");
+        }
 
 //        Process process = new SparkLauncher(env)
 //                .setAppName(appName)
@@ -100,6 +112,5 @@ public abstract class AbstractParentExecuteController extends AbstractExecuteCon
 //        } else {
 //            return fail("提交失败");
 //        }
-        return success(null);
     }
 }

@@ -24,7 +24,6 @@
         </dependency>
     </dependencies>
     <build>
-
         <!-- 测试文件的编译路径设置 -->
         <testResources>
             <testResource>
